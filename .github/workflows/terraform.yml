@@ -1,8 +1,7 @@
 name: Terraform Plan
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
 
 jobs:
   terraform:
@@ -33,4 +32,5 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        run: terraform apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'merge'
+        run: terraform apply -auto-approve -input=false
